@@ -1,7 +1,6 @@
 import React from 'react';
-import { useConnect, useAccount, useBalance } from 'wagmi';
+import { useConnect, useAccount, useBalance, useNetwork } from 'wagmi';
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
-import { sepolia } from 'wagmi/chains';
 
 import { truncate } from '../../utils';
 
@@ -10,10 +9,8 @@ import Button from '../ui/Button';
 const md5 = require('md5');
 
 function Header() {
-  const connector = new MetaMaskConnector({
-    chains: [sepolia],
-  });
-
+  const connector = new MetaMaskConnector();
+  const { chain } = useNetwork();
   const { isConnected, address } = useAccount();
   const { connect, isLoading } = useConnect({
     connector,
@@ -43,6 +40,11 @@ function Header() {
             ) : isConnected ? (
               <>
                 <div className="d-flex align-items-center justify-content-end">
+                  {chain && (
+                    <span className="me-3">
+                      Connected to {chain.name}({chain.id})
+                    </span>
+                  )}
                   <img
                     className="img-profile me-3"
                     src={`https://www.gravatar.com/avatar/${md5(address)}/?d=identicon`}

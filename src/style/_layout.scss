@@ -17,7 +17,17 @@
 }
 
 .main {
+  display: flex;
   flex: 1;
+}
+
+.home-container {
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 0rem;
+  justify-content: space-around;
+  text-align: center;
 }
 
 .footer {
