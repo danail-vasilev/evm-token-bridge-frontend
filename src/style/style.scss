@@ -9,3 +9,13 @@
   height: 32px;
   border-radius: 50%;
 }
+$token-min-width: map-get($spacers, 11);
+.token-input {
+  min-width: $token-min-width;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.amount-input {
+  width: 200px;
+}

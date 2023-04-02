@@ -1,0 +1,26 @@
+[
+  {
+    "chainId": 1337,
+    "label": "Ganache",
+    "tokens": ["0x9b98B14A31b4797F9dB0AD588Ae415835265654E"],
+    "bridge": "0xc83b71e8dB8f68fE5A71C3f31838B7657137cAB4"
+  },
+  {
+    "chainId": 31337,
+    "label": "Hardhat",
+    "tokens": ["0x9b98B14A31b4797F9dB0AD588Ae415835265654E"],
+    "bridge": "0xc83b71e8dB8f68fE5A71C3f31838B7657137cAB4"
+  },
+  {
+    "chainId": 11155111,
+    "label": "Sepolia",
+    "tokens": ["0x"],
+    "bridge": "0x"
+  },
+  {
+    "chainId": 5,
+    "label": "Goerli",
+    "tokens": ["0x"],
+    "bridge": "0x"
+  }
+]

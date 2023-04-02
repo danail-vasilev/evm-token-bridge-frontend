@@ -1,5 +1,5 @@
 import React from 'react';
-import { useConnect, useAccount, useBalance, useNetwork } from 'wagmi';
+import { useConnect, useAccount, useBalance } from 'wagmi';
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
 
 import { truncate } from '../../utils';
@@ -8,9 +8,9 @@ import Button from '../ui/Button';
 
 const md5 = require('md5');
 
-function Header() {
+function Header(props) {
+  const chain = props.chain;
   const connector = new MetaMaskConnector();
-  const { chain } = useNetwork();
   const { isConnected, address } = useAccount();
   const { connect, isLoading } = useConnect({
     connector,
