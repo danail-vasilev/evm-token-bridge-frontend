@@ -1,23 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { ethers } from 'ethers';
+import { useSigner } from 'wagmi';
+import { Dropdown, DropdownButton, ButtonGroup, Form } from 'react-bootstrap';
 import Button from '../components/ui/Button';
-import { Dropdown, DropdownButton, ButtonGroup, Modal, Form } from 'react-bootstrap';
+import TransferModal from '../components/ui/TransferModal';
+import { getNetworkByChainId } from '../utils/index';
+import bridgeABI from '../abi/BridgeFactory.json';
 import networks from '../networks.json';
 
 function Transfer(props) {
-  const chain = props.chain;
+  const { data: signer } = useSigner();
+
+  const sourceChain = getNetworkByChainId(props.chain?.id);
   const [modalShow, setModalShow] = useState(false);
-  const [selectedChainId, setSelectedChainId] = useState();
+  const [targetChain, setTargetChain] = useState();
   const [networkDropdownTitle, setNetworkDropdownTitle] = useState('Select a network');
   const [tokenAddressList, setTokenAddressList] = useState();
   const [selectedTokenAddr, setSelectedTokenAddr] = useState('');
   const [selectedAmount, setSelectedAmount] = useState(0);
 
+  // Contract states
+  const [bridgeContract, setBridgeContract] = useState();
+
   const onNetworkDropdownSelect = chainId => {
-    setSelectedChainId(chainId);
-    const network = networks?.find(network => network.chainId === Number(chainId));
+    const network = getNetworkByChainId(Number(chainId));
+    setTargetChain(network);
     setNetworkDropdownTitle(network?.label);
     setTokenAddressList(network?.tokens);
   };
+
+  // Use effects
+  useEffect(() => {
+    if (signer) {
+      const _bridgeContract = new ethers.Contract(sourceChain.bridge, bridgeABI, signer);
+      setBridgeContract(_bridgeContract);
+    }
+  }, [signer, sourceChain]);
 
   // TODO: Add placeholder when not connected
   return (
@@ -28,12 +46,12 @@ function Transfer(props) {
           <span className="me-3">Choose network to bridge to:</span>
           <DropdownButton title={networkDropdownTitle} onSelect={onNetworkDropdownSelect}>
             {networks
-              .filter(option => option.chainId !== selectedChainId)
+              .filter(option => option.chainId !== targetChain?.chainId)
               .map(option => (
                 <Dropdown.Item
                   key={option.chainId}
                   eventKey={option.chainId}
-                  disabled={option.chainId === chain?.id}
+                  disabled={option.chainId === sourceChain?.chainId}
                 >
                   {option.label}
                 </Dropdown.Item>
@@ -81,41 +99,21 @@ function Transfer(props) {
       </div>
       <div>
         <Button type="secondary me-8">Approve</Button>
-        <Button onClick={() => setModalShow(true)} disabled={!selectedChainId} type="primary">
+        <Button onClick={() => setModalShow(true)} disabled={!targetChain?.chainId} type="primary">
           Transfer
         </Button>
       </div>
-      <TransferModal show={modalShow} onHide={() => setModalShow(false)} />
+      <TransferModal
+        sourceChain={sourceChain}
+        targetChain={targetChain}
+        tokenAddress={selectedTokenAddr}
+        tokenAmount={selectedAmount}
+        bridge={bridgeContract}
+        signer={signer}
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
     </div>
-  );
-}
-
-function TransferModal(props) {
-  return (
-    <Modal {...props} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
-      <Modal.Body className="d-flex flex-column align-items-center lh-lg mt-6 mb-6">
-        <h2 className="mb-3">Please Confirm</h2>
-        <p>Are you sure you want to bridge:</p>
-        <p>
-          <span>Source Chain:</span>
-          <span>Rinkeby</span>
-        </p>
-        <p>
-          <span>Target Chain:</span>
-          <span>Ropsten</span>
-        </p>
-        <p>
-          <span>Token:</span>
-          <span>123 DAI</span>
-        </p>
-      </Modal.Body>
-      <Modal.Footer className="justify-content-around">
-        <Button onClick={props.onHide} type="secondary">
-          Cancel
-        </Button>
-        <Button onClick={props.onHide}>Confirm</Button>
-      </Modal.Footer>
-    </Modal>
   );
 }
 
