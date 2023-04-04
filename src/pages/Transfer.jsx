@@ -38,6 +38,7 @@ function Transfer(props) {
   }, [signer, sourceChain]);
 
   // TODO: Add placeholder when not connected
+  // TODO: Add form validation
   return (
     <div className="container home-container my-5">
       {selectedTokenAddr}
