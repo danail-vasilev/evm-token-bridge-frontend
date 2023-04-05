@@ -3,6 +3,8 @@ import { ethers } from 'ethers';
 import { useSigner } from 'wagmi';
 import bridgeABI from '../abi/BridgeFactory.json';
 import Table from 'react-bootstrap/Table';
+import Button from '../components/ui/Button';
+import ClaimModal from '../components/ui/ClaimModal';
 import { getNetworkByChainId, truncate } from '../utils/index';
 
 // TODO: Check other datagrid components:
@@ -13,10 +15,18 @@ function Claim(props) {
   const { data: signer } = useSigner();
   const sourceChain = props.sourceChain;
 
+  const [modalShow, setModalShow] = useState(false);
+  const [selectedClaimData, setSelectedClaimData] = useState({});
+
   // Contract states
   const [bridgeContract, setBridgeContract] = useState();
   const [claimList, setClaimList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  const onClaim = row => {
+    setSelectedClaimData({ from: row.from, to: row.to, token: row.token, amount: row.amount });
+    setModalShow(true);
+  };
 
   const getClaimList = useCallback(async () => {
     setIsLoading(true);
@@ -38,11 +48,10 @@ function Claim(props) {
           .map((tokenAmount, index) => {
             return {
               id: index,
-              from: targetChain.label,
-              to: sourceChain.label,
-              token: truncate(tokenList[index], 6),
+              from: targetChain,
+              to: sourceChain,
+              token: tokenList[index],
               amount: tokenAmount.toNumber(),
-              action: 'Claim',
             };
           })
           .filter(claim => claim.amount > 0);
@@ -87,7 +96,9 @@ function Claim(props) {
         <tbody>
           {!claimList.length ? (
             <tr>
-              <td colSpan={6}>No tokens to claim</td>
+              <td colSpan={6} className="text-center">
+                No tokens to claim
+              </td>
             </tr>
           ) : (
             <></>
@@ -95,15 +106,30 @@ function Claim(props) {
           {claimList.map(row => (
             <tr key={row.id}>
               <td>{row.id}</td>
-              <td>{row.from}</td>
-              <td>{row.to}</td>
-              <td>{row.token}</td>
+              <td>{row.from?.label}</td>
+              <td>{row.to?.label}</td>
+              <td>{truncate(row.token, 6)}</td>
               <td>{row.amount}</td>
-              <td>{row.action}</td>
+              <td>
+                {' '}
+                <Button onClick={() => onClaim(row)} type="primary">
+                  Claim
+                </Button>
+              </td>
             </tr>
           ))}
         </tbody>
       </Table>
+      <ClaimModal
+        sourceChain={selectedClaimData.from}
+        targetChain={selectedClaimData.to}
+        tokenAddress={selectedClaimData.token}
+        tokenAmount={selectedClaimData.amount}
+        bridge={bridgeContract}
+        signer={signer}
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
     </div>
   );
 }

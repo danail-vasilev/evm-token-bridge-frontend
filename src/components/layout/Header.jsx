@@ -34,6 +34,12 @@ function Header(props) {
               alt=""
             />
           </a>
+          <div>
+            <a className="me-5" href="/Claim">
+              Claim
+            </a>
+            <a href="/Transfer">Transfer</a>
+          </div>
           <div className="d-flex">
             {isLoading ? (
               <span>Loading...</span>
