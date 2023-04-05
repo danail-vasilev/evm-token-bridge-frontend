@@ -19,3 +19,10 @@ $token-min-width: map-get($spacers, 11);
 .amount-input {
   width: 200px;
 }
+
+.claim-list {
+  display: flex;
+  flex: 1 0 0rem;
+  flex-direction: column;
+  margin-top: 8px;
+}

@@ -11,7 +11,7 @@ import networks from '../networks.json';
 function Transfer(props) {
   const { data: signer } = useSigner();
 
-  const sourceChain = getNetworkByChainId(props.chain?.id);
+  const sourceChain = props.sourceChain;
   const [modalShow, setModalShow] = useState(false);
   const [targetChain, setTargetChain] = useState();
   const [networkDropdownTitle, setNetworkDropdownTitle] = useState('Select a network');

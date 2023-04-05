@@ -11,6 +11,8 @@ import Header from './layout/Header';
 import Footer from './layout/Footer';
 import Home from '../pages/Home';
 import Transfer from '../pages/Transfer';
+import Claim from '../pages/Claim';
+import { getNetworkByChainId } from '../utils/index';
 
 function App() {
   const { provider } = configureChains([sepolia, goerli, hardhat, localhost], [publicProvider()]);
@@ -21,6 +23,7 @@ function App() {
   });
 
   const { chain } = useNetwork();
+  const sourceChain = getNetworkByChainId(chain?.id);
 
   return (
     <BrowserRouter>
@@ -31,7 +34,8 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/election" element={<Election />} />
-              <Route path="/transfer" element={<Transfer chain={chain} />} />
+              <Route path="/transfer" element={<Transfer sourceChain={sourceChain} />} />
+              <Route path="/claim" element={<Claim sourceChain={sourceChain} />} />
             </Routes>
           </div>
           <Footer />
