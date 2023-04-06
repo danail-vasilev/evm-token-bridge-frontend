@@ -2,6 +2,8 @@
 
 This is the frontend app that interacts with [EVM ERC-20 Token Bridge smart contracts](https://github.com/danail-vasilev/evm-token-bridge-contracts).
 
+Check [video interaction](https://www.screencast.com/t/jWu46nCJ) for details.
+
 ## 📌 Prerequisites
 
 If you are Windows user please consider using a proper [terminal app](https://hyper.is/).
