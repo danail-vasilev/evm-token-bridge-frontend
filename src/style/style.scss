@@ -26,3 +26,11 @@ $token-min-width: map-get($spacers, 11);
   flex-direction: column;
   margin-top: 8px;
 }
+
+.btn-wrapper {
+  padding-top: 2px !important;
+  .btn-y-center {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+}

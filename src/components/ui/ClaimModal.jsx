@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Button from './Button';
 import { Modal } from 'react-bootstrap';
 
+// TODO: Create a common modal component for claim and transfer; Just pass strings and call type.
 function ClaimModal(props) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -49,7 +50,7 @@ function ClaimModal(props) {
         {!isSuccess && !failMessage ? (
           <>
             <h2 className="mb-3">Please Confirm</h2>
-            <p>Are you sure you want to bridge:</p>
+            <p>Are you sure you want to Claim Your Token(s):</p>
             <p>
               <span className="me-3">Source Chain:</span>
               <span>{sourceChain?.label}</span>
@@ -71,7 +72,7 @@ function ClaimModal(props) {
         )}
         {isSuccess ? (
           <>
-            <p>Your Transaction is Successful</p>
+            <h2>You Claimed Your Token Successfully</h2>
             <p>Transaction hash:</p>
             <p>{txHash}</p>
             <p>

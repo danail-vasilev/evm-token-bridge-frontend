@@ -41,7 +41,6 @@ function Transfer(props) {
   // TODO: Add form validation
   return (
     <div className="container home-container my-5">
-      {selectedTokenAddr}
       <div className="card">
         <div className="card-body d-flex justify-content-between align-items-baseline">
           <span className="me-3">Choose network to bridge to:</span>

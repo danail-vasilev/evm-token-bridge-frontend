@@ -1,6 +1,6 @@
-# 😎 LimeAcademy Web3 advanced example
+# EVM ERC-20 Token Bridge Frontend App
 
-Election contract iteractions example.
+This is the frontend app that interacts with [EVM ERC-20 Token Bridge smart contracts](https://github.com/danail-vasilev/evm-token-bridge-contracts).
 
 ## 📌 Prerequisites
 

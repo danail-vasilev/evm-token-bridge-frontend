@@ -5,8 +5,6 @@ import { WagmiConfig, configureChains, createClient, goerli, useNetwork } from '
 import { hardhat, localhost, sepolia } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 
-import Election from '../pages/Election';
-
 import Header from './layout/Header';
 import Footer from './layout/Footer';
 import Home from '../pages/Home';
@@ -33,7 +31,6 @@ function App() {
           <div className="main">
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/election" element={<Election />} />
               <Route path="/transfer" element={<Transfer sourceChain={sourceChain} />} />
               <Route path="/claim" element={<Claim sourceChain={sourceChain} />} />
             </Routes>

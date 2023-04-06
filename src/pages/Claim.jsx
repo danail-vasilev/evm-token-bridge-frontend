@@ -110,9 +110,9 @@ function Claim(props) {
               <td>{row.to?.label}</td>
               <td>{truncate(row.token, 6)}</td>
               <td>{row.amount}</td>
-              <td>
+              <td className="btn-wrapper">
                 {' '}
-                <Button onClick={() => onClaim(row)} type="primary">
+                <Button onClick={() => onClaim(row)} type="primary btn-sm btn-y-center">
                   Claim
                 </Button>
               </td>

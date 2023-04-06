@@ -71,7 +71,7 @@ function TransferModal(props) {
         )}
         {isSuccess ? (
           <>
-            <p>Your Transaction is Successful</p>
+            <h2>Your Transaction is Successful</h2>
             <p>Transaction hash:</p>
             <p>{txHash}</p>
             <p>
